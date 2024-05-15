@@ -1,0 +1,23 @@
+<script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const chatbotId = urlParams.get("id");
+
+  const dev = urlParams.get("dev");
+  let sourceUrl;
+  if (dev === "true") {
+    sourceUrl = "https://cdn.sleak.chat";
+  } else {
+    sourceUrl = "https://cdn.dev.sleak.chat";
+  }
+
+  if (chatbotId) {
+    const script = document.createElement("script");
+    script.id = "sleakbot";
+    script.src = `${sourceUrl}/fetchsleakbot.js`;
+    script.setAttribute("chatbot-id", chatbotId);
+    document.head.appendChild(script);
+  } else {
+    console.log("no id present in url");
+  }
+</script>
