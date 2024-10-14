@@ -30,6 +30,30 @@
     <link href="images/webclip.png" rel="apple-touch-icon" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const chatbotId = urlParams.get('id');
+
+      const dev = urlParams.get('dev');
+      let sourceUrl;
+      if (dev === 'true') {
+        sourceUrl = 'https://cdn.dev.sleak.chat';
+      } else {
+        sourceUrl = 'https://cdn.sleak.chat';
+      }
+
+      if (chatbotId) {
+        const script = document.createElement('script');
+        script.id = 'sleakbot';
+        script.src = `${sourceUrl}/fetchsleakbot.js`;
+        script.setAttribute('chatbot-id', chatbotId);
+        document.head.appendChild(script);
+      } else {
+        console.log('no id present in url');
+      }
+    </script>
   </head>
   <body class="body-40">
     <div class="page-wrap">
