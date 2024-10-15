@@ -176,6 +176,8 @@
         if (accountEmail) {
           document.querySelector('#chatbot_name').value = accountEmail;
         }
+        console.log('window: ', window.supabase);
+        console.log('no window: ', supabase);
       });
 
       async function resetPasswordForEmail(email) {
