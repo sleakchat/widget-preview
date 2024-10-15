@@ -181,9 +181,14 @@
       });
 
       async function resetPasswordForEmail(email) {
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        const { data, error } = await window.supabase.auth.resetPasswordForEmail(email, {
           redirectTo: 'https://dashboard.sleak.chat/redirect/?url=password-update/'
         });
+        if (error) {
+          console.error('Error:', error);
+        } else {
+          console.log('Password reset email sent:', data);
+        }
       }
 
       document.querySelector('[chatbot-service="reset-email-form"]').addEventListener('submit', async e => {
