@@ -181,7 +181,7 @@
       });
 
       async function resetPasswordForEmail(email) {
-        const { data, error } = await window.supabase.auth.resetPasswordForEmail(email, {
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: 'https://dashboard.sleak.chat/redirect/?url=password-update/'
         });
       }
