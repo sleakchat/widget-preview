@@ -176,7 +176,7 @@
         if (accountEmail) {
           document.querySelector('#chatbot_name').value = accountEmail;
         }
-        console.log('window: ', window.supabase);
+        console.log('window: ', window.supabase.auth);
         console.log('no window: ', supabase);
       });
 
