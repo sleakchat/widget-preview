@@ -131,6 +131,19 @@
                   readonly
                   background-color="#ECECEC" />
               </div>
+              <div class="success-message w-form-done" tabindex="-1" role="region" aria-label="password_reset success" style="display: block">
+                <div class="div-block-773 noticecontainer">
+                  <div
+                    class="notice warning large"
+                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1; display: none">
+                    <img src="https://cdn.prod.website-files.com/65911e9735540c235757642f/661e2f3ec25b14bc1450b90b_exclamation-circle%20(5).svg" loading="lazy" alt="" class="notice-icon" />
+                    <div class="div-block-617">
+                      <div class="text-block-14">Gebruik de link in je e-mail om in te loggen</div>
+                      <div class="text-block-172">Let op:&nbsp;de mail bevat een eenmalige aanmeld-link, deze is slechts eenmalig te gebruiken per mail.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="button-footer modal">
               <div class="form-btns-container-2">
@@ -148,19 +161,6 @@
               </div>
             </div>
           </form>
-          <div class="success-message w-form-done" tabindex="-1" role="region" aria-label="password_reset success" style="display: block">
-            <div class="div-block-773 noticecontainer">
-              <div
-                class="notice warning large"
-                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1">
-                <img src="https://cdn.prod.website-files.com/65911e9735540c235757642f/661e2f3ec25b14bc1450b90b_exclamation-circle%20(5).svg" loading="lazy" alt="" class="notice-icon" />
-                <div class="div-block-617">
-                  <div class="text-block-14">Gebruik de link in je e-mail om in te loggen</div>
-                  <div class="text-block-172">Let op:&nbsp;de mail bevat een eenmalige aanmeld-link, deze is slechts eenmalig te gebruiken per mail.</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -235,7 +235,7 @@
         } else {
           console.log('Password reset email sent:', data);
 
-          document.querySelector('.success-message').style.display = 'block';
+          document.querySelector('.success-message').style.display = 'flex';
           document.querySelector('[chatbot-service="reset-email-form"]').style.display = 'none';
         }
       });
