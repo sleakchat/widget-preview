@@ -224,8 +224,6 @@
         const email = document.querySelector('[chatbot-service="input-field-email"]').value;
         resetPasswordForEmail(email);
 
-        console.log('Password reset email sent:', data);
-
         document.querySelector('.success-message').style.display = 'flex';
         document.querySelector('[chatbot-service="reset-email-form"]').style.display = 'none';
       });
