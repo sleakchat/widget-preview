@@ -70,7 +70,7 @@
             <div class="div-block-470"><img src="images/heart-1.svg" loading="lazy" alt="" /></div>
             <div class="subtitle-label kleur blauw paars">Chatbot preview</div>
           </div>
-          <h2 class="heading-2-content max-widthh">Claim jouw AI chatbot en ga aan de slag met de eerste opzet</h2>
+          <h2 class="heading-2-content max-widthh" style="font-family: Thicccboi">Claim jouw AI chatbot en ga aan de slag met de eerste opzet</h2>
           <p class="sub-title-paragraph content home kleiner">Test via de knop rechtsonderin het resultaat van de eerste basis van jouw AI chatbot.</p>
           <p class="sub-title-paragraph content home kleiner">Onthoud dat dit nog een beknopte opzet is, op basis van slechts een aantal webpagina’s van je website.</p>
           <div class="_3-checks-div vertjca">
@@ -223,14 +223,11 @@
         e.preventDefault();
         const email = document.querySelector('[chatbot-service="input-field-email"]').value;
         resetPasswordForEmail(email);
-        if (error) {
-          console.error('Error:', error);
-        } else {
-          console.log('Password reset email sent:', data);
 
-          document.querySelector('.success-message').style.display = 'flex';
-          document.querySelector('[chatbot-service="reset-email-form"]').style.display = 'none';
-        }
+        console.log('Password reset email sent:', data);
+
+        document.querySelector('.success-message').style.display = 'flex';
+        document.querySelector('[chatbot-service="reset-email-form"]').style.display = 'none';
       });
     </script>
 
