@@ -129,7 +129,7 @@
                   id="chatbot_name"
                   required=""
                   readonly
-                  background-color="#ECECEC" />
+                  background-color="#EEEEEE" />
               </div>
               <div class="success-message w-form-done" tabindex="-1" role="region" aria-label="password_reset success" style="display: block">
                 <div class="div-block-773 noticecontainer">
@@ -205,11 +205,7 @@
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5Z3B3bmx1d3dldHJrbXdpbGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUzMDIxNTQsImV4cCI6MjAyMDg3ODE1NH0.n2RSjgeqR-41wSO_IFuzPJKcc9bo1DbkXiPEsc1jO00';
         supaClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-        console.log(supaClient);
-        console.log(supaClient.auth);
-
         const accountEmail = urlParams.get('email');
-        console.log('accountEmail', accountEmail);
         if (accountEmail) {
           document.querySelector('#chatbot_name').value = accountEmail;
         }
@@ -219,11 +215,8 @@
         const { data, error } = await supaClient.auth.resetPasswordForEmail(email, {
           redirectTo: 'https://dashboard.sleak.chat/redirect/?url=password-update/'
         });
-        if (error) {
-          console.error('Error:', error);
-        } else {
-          console.log('Password reset email sent:', data);
-        }
+
+        console.log('Password reset email sent:', data);
       }
 
       document.querySelector('[chatbot-service="reset-email-form"]').addEventListener('submit', async e => {
