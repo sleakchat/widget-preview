@@ -82,7 +82,7 @@
           <div class="plaece-logowrapper">
             <img src="/Users/basrijnen/Documents/GitHub/widget-preview/plaece-assist/images/plaece-logo.svg" width="120px" />
           </div>
-          <h2 class="heading-2-content max-widthh" style="font-family: 'Thicccboi'">Test hier de eerste versie van jouw AI reisassistent</h2>
+          <h2 class="heading-2-content max-widthh" style="font-family: 'Thicccboi'" id="personalized-heading" max-width="595px" width="595px"></h2>
           <p class="sub-title-paragraph content home kleiner">Onthoud dat dit nog een beknopte opzet is.</p>
           <p class="sub-title-paragraph content home kleiner">Het systeem kan volledig geoptimaliseerd worden naar jullie wensen.</p>
           <div class="_3-checks-div vertjca">
@@ -348,6 +348,16 @@
         });
       });
     </script> -->
+
+    <script>
+      //dynamically render name
+      const websiteUrl = urlParams.get('url');
+      if (websiteUrl) {
+        document.querySelector('#personalized-heading').innerHTML = `Test hier de eerste versie de AI reisassistent voor ${websiteUrl}!`;
+      } else {
+        console.log('no url found');
+      }
+    </script>
 
     <script
       src="https://run.confettipage.com/here.js"
