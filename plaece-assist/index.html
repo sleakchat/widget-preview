@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="NL">
+  <head>
+    <meta charset="utf-8" />
+    <title>service-preview</title>
+    <meta content="service-preview" property="og:title" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="noindex" name="robots" />
+    <link href="css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="css/webflow.css" rel="stylesheet" type="text/css" />
+    <link href="css/sleak-chat.webflow.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <style>
+      @font-face {
+        font-family: 'Thicccboi';
+        src: url('fonts/64e92818f126480e2c5c72fe_THICCCBOI-Medium.woff2') format('woff2');
+        font-weight: medium;
+        font-style: normal;
+      }
+
+      .heading-2-content {
+        font-family: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif';
+      }
+
+      body {
+        font-family: 'system-ui', sans-serif !important;
+      }
+      body * {
+        font-family: 'system-ui', sans-serif !important;
+      }
+    </style>
+
+    <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="images/webclip.png" rel="apple-touch-icon" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const chatbotId = urlParams.get('id');
+
+      const dev = urlParams.get('dev');
+      let sourceUrl;
+      if (dev === 'true') {
+        sourceUrl = 'https://cdn.dev.sleak.chat';
+      } else {
+        sourceUrl = 'https://cdn.sleak.chat';
+      }
+
+      if (chatbotId) {
+        const script = document.createElement('script');
+        script.id = 'sleakbot';
+        script.src = `${sourceUrl}/fetchsleakbot.js`;
+        script.setAttribute('chatbot-id', chatbotId);
+        document.head.appendChild(script);
+      } else {
+        console.log('no id present in url');
+      }
+      // set timeout 3 sec, only on desktop
+      if (window.innerWidth > 1024) {
+        setTimeout(() => {
+          window.toggleSleakWidget();
+        }, 10000);
+      }
+    </script>
+  </head>
+  <body class="body-40">
+    <div class="page-wrap">
+      <div class="content-wrap">
+        <div class="div-left right _100">
+          <!--
+          <div class="label-div paars">
+            <div class="div-block-470"><img src="images/heart-1.svg" loading="lazy" alt="" /></div>
+            <div class="subtitle-label kleur blauw paars">Chatbot preview</div>
+          </div>
+          -->
+          <div class="plaece-logowrapper">
+            <img src="/Users/basrijnen/Documents/GitHub/widget-preview/plaece-assist/images/plaece-logo.svg" width="120px" />
+          </div>
+          <h2 class="heading-2-content max-widthh" style="font-family: 'Thicccboi'">Test hier de eerste versie van jouw AI reisassistent</h2>
+          <p class="sub-title-paragraph content home kleiner">Onthoud dat dit nog een beknopte opzet is.</p>
+          <p class="sub-title-paragraph content home kleiner">Het systeem kan volledig geoptimaliseerd worden naar jullie wensen.</p>
+          <div class="_3-checks-div vertjca">
+            <div class="check-div">
+              <div class="div-block-453 groter"><img src="images/check.svg" loading="lazy" alt="" class="image-167" /></div>
+              <div class="sub-title-paragraph block kleiner">Test & specificeer je wensen</div>
+            </div>
+            <div class="check-div">
+              <div class="div-block-453 groter"><img src="images/check.svg" loading="lazy" alt="" class="image-167" /></div>
+              <div class="sub-title-paragraph block kleiner">We begeleiden je van A tot Z</div>
+            </div>
+          </div>
+          <div class="div-block-357 new home top-margin">
+            <a href="https://www.sleak.chat/" target="_blank" class="new-primary-btn-2 purple hero w-inline-block">
+              <div class="text-block-209">Wensen invullen</div>
+              <img loading="lazy" src="images/angle-right-6.svg" alt="" class="btn-angle-icon-2" />
+            </a>
+            <!--<a openmodal="calendly" data-w-id="06232a09-1ef3-9d5c-3294-12b98f63f382" href="#" class="new-primary-btn-2 purple secondary hero home chatbot-service w-inline-block">
+              <div class="div-block-878">
+                <div class="div-block-879 absplute"></div>
+                <div class="div-block-877">
+                  <div class="text-block-209">Demo van Tom</div>
+                  <img loading="lazy" src="images/angle-right-2.svg" alt="" class="btn-angle-icon-2" />
+                </div>
+              </div>
+            </a>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="popup-create-chatbot" w-el="popup-create-chatbot" popupmodal="claim-chatbot" class="popup-underlay-4">
+      <div popupmodal-closetrigger="" w-el="close-btn-create-chatbot" class="close-trigger-underlay-2"></div>
+      <div class="white-container popup-modal">
+        <div class="popup-header-wrap-2">
+          <h1 class="popup-header-4">Chatbot claimen</h1>
+        </div>
+        <div id="settings-form-algemeen" class="formblock first w-form">
+          <form action="/" method="post" chatbot-service="reset-email-form" class="form-11 settings">
+            <div w-el="fom-create-chatbot" class="form-inputs-container modal _50">
+              <div class="input-container-2">
+                <div class="text-block-239">
+                  Je krijgt een e-mail toegestuurd met een link om een wachtwoord in te stellen. Vervolgens heb je direct toegang tot jouw persoonlijke dashboard omgeving.
+                </div>
+                <div class="headingsub-container">
+                  <div class="settings-title-2" style="font-weight: 600">Opgegeven email adres</div>
+                  <div class="text-block-237">Zichtbaar in de widget</div>
+                </div>
+                <input
+                  class="form-input-3 w-input"
+                  maxlength="256"
+                  name="chatbot_name"
+                  data-name="Chatbot Name"
+                  placeholder=""
+                  chatbot-service="input-field-email"
+                  type="text"
+                  id="chatbot_name"
+                  required=""
+                  readonly
+                  background-color="#EEEEEE" />
+              </div>
+              <div class="success-message w-form-done" tabindex="-1" role="region" aria-label="password_reset success" style="display: none">
+                <div class="div-block-773 noticecontainer">
+                  <div
+                    class="notice success large"
+                    style="
+                      transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+                      transform-style: preserve-3d;
+                      opacity: 1;
+                      display: flex;
+                      padding-top: 8px;
+                      padding-bottom: 8px;
+                      gap: 6px;
+                      margin-top: 10px;
+                      height: auto;
+                    ">
+                    <img src="images/check-circle-3_1.svg" loading="lazy" alt="" class="notice-icon" style="margin-top: 3px" />
+                    <div class="div-block-617" style="width: auto; text-align: left" width="auto">
+                      <div class="text-block-14" style="font-size: 13px; font-weight: 600; font-family: var(--system-ui)">E-mail verstuurd.</div>
+                      <div class="text-block-14" style="font-size: 12px; font-weight: 400; font-family: var(--system-ui)">
+                        Gelukt! Check je mailbox voor de wachtwoord herstel link om je chatbot te claimen.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-footer modal">
+              <div class="form-btns-container-2">
+                <div popupmodal-closetrigger="" class="button-secondary reset">
+                  <img loading="lazy" src="images/corner-up-left-alt.svg" alt="" class="back-to-dash-icon back" />
+                  <div class="back-to-dash-2">Terug</div>
+                </div>
+                <div class="form-btnwrap">
+                  <input type="submit" data-wait="Please wait..." class="new-primary-btn-5 form w-button" value="Email link sturen" /><img
+                    loading="lazy"
+                    src="images/angle-right-6.svg"
+                    alt=""
+                    class="btn-angle-icon-2 formbtn" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div popupmodal="calendly" class="popup-underlay-2 helpdesk calendl">
+      <div popupmodal-closetrigger="calendly" class="close-trigger-underlay-2 pricing"></div>
+      <div id="video1" f-data-video="wrapper" class="html-video-wrapper-2 calendly">
+        <div class="div-block-876 pseudo"></div>
+        <div class="div-block-876">
+          <div class="html-embed-13 mobile w-embed w-script">
+            <!--  Calendly inline widget begin  -->
+            <div class="calendly-inline-widget" data-url="https://calendly.com/sleak-chat/product-demo?primary_color=7E79F0&hide_gdpr_banner=1" style="min-width: 320px; height: 100%"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async=""></script>
+            <!--  Calendly inline widget end  -->
+            <script>
+              function isCalendlyEvent(e) {
+                return e.data.event && e.data.event.indexOf('calendly') === 0;
+              }
+              window.addEventListener('message', function (e) {
+                if (isCalendlyEvent(e)) {
+                  if (e.data.event === 'calendly.event_scheduled') {
+                    var dataLayer = window.dataLayer || (window.dataLayer = []);
+                    dataLayer.push({
+                      event: 'calendlyEventScheduled'
+                    });
+                    console.log('data layer event:', e.data);
+                  }
+                }
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .notice {
+        -webkit-text-size-adjust: 100%;
+        --white: white;
+        --primary_active: #f8f8ff;
+        --system-ui: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        --divider: #e5e5e5;
+        --purple--border: #f0edfd;
+        --primary_hover: #f4f4ff;
+        --primary_color: #7e79f0;
+        --border-f5f5f5f: #0003;
+        --svg_wrapper_size: 24px;
+        --purple--background: #fbfbfe;
+        --black: black;
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        min-width: 50px;
+        margin-bottom: 0;
+        padding-left: 15px;
+        transition: all 0.15s;
+        display: flex;
+        position: relative;
+        inset: auto auto 0%;
+        box-shadow: 0 2px 5px #0000001a;
+        text-align: left;
+        background-color: #f9f3ec;
+        border: 1px solid #e7b54980;
+        width: 100%;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-right: 15px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: auto;
+        transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+        transform-style: preserve-3d;
+        opacity: 1;
+      }
+      .text-block-14 {
+        width: auto !important;
+      }
+      @media (max-width: 991px) {
+        .page-wrap {
+          padding: 20px;
+          align-items: start;
+        }
+      }
+    </style>
+
+    <script>
+      // password reset
+      let supaClient;
+
+      document.addEventListener('DOMContentLoaded', event => {
+        const supabaseUrl = 'https://sygpwnluwwetrkmwilea.supabase.co';
+        const supabaseKey =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5Z3B3bmx1d3dldHJrbXdpbGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUzMDIxNTQsImV4cCI6MjAyMDg3ODE1NH0.n2RSjgeqR-41wSO_IFuzPJKcc9bo1DbkXiPEsc1jO00';
+        supaClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        const accountEmail = urlParams.get('email');
+        if (accountEmail) {
+          document.querySelector('#chatbot_name').value = accountEmail;
+        }
+      });
+
+      async function resetPasswordForEmail(email) {
+        const { data, error } = await supaClient.auth.resetPasswordForEmail(email, {
+          redirectTo: 'https://dashboard.sleak.chat/redirect/?url=password-update/'
+        });
+
+        console.log('Password reset email sent:', data);
+      }
+
+      document.querySelector('[chatbot-service="reset-email-form"]').addEventListener('submit', async e => {
+        e.preventDefault();
+        const email = document.querySelector('[chatbot-service="input-field-email"]').value;
+        resetPasswordForEmail(email);
+
+        document.querySelector('.success-message').style.display = 'flex';
+        document.querySelector('.input-container-2').style.display = 'none';
+        document.querySelector('.new-primary-btn-5').style.display = 'none';
+        document.querySelector('.form-btns-container-2').style.gridColumnGap = '0px';
+      });
+    </script>
+
+    <script>
+      // popup modals visibility behaviour
+      const modalTriggers = document.querySelectorAll('[openmodal]');
+      modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function () {
+          const modalValue = this.getAttribute('openmodal');
+          document.querySelectorAll('[popupmodal]').forEach(popup => {
+            if (popup.getAttribute('popupmodal') === modalValue) {
+              if (modalValue == 'edit-kb-topic' || modalValue == 'create-kb-topic') {
+                popup.style.transform = 'translateX(20px)';
+                popup.style.opacity = 0;
+                popup.style.display = 'flex';
+                setTimeout(() => {
+                  popup.style.transform = 'translateX(0)';
+                  popup.style.opacity = 1;
+                }, 10);
+              } else {
+                popup.style.transform = 'translateY(5px)';
+                popup.style.opacity = 0;
+                popup.style.display = 'flex';
+                setTimeout(() => {
+                  popup.style.transform = 'translateY(0)';
+                  popup.style.opacity = 1;
+                }, 10);
+              }
+            }
+          });
+        });
+      });
+      // close
+      const modals = document.querySelectorAll('[popupmodal]');
+      const prevBtns = document.querySelectorAll('[popupmodal-closetrigger]');
+      prevBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          modals.forEach(modal => {
+            modal.style.display = 'none';
+          });
+        });
+      });
+    </script>
+
+    <script
+      src="https://run.confettipage.com/here.js"
+      data-confetticode="U2FsdGVkX1/lwpcEZBXJkBpJwmNW/cbPUbI73Wj9lh6kLX+qRCa1tSLfeYjeCTkTRVwveaqoLAVnsK/FLbDfL2uevBVCxecYVOCzgTiO/BDJxj/jM7QT0IwvaMERo45MlUzUvLrVpUuYymNHfthTVLT0h0VpUm2lZwMK+XntJ5eu2tg3Kjv8sNxMxnyPiIvtjWFmkwhwYEjBuINfP6fpX+XSeb7zbcRjVIOpK/05wawVQixA5NowF6Ao0Y6hMDtu8ti48ojm7Blao1+SraH0MGSx4xtlJEQmdyERhiWKc/g3OEJ74IEGDx4JDii19a5TgCfktnda3i+V98cfXlc8AHodIbyFxxB6dYiFkelUNdvzWejZclZrpP4wakLBey74inkt/Dwqay1qNXIZMsylwZsL/ZtaGXxl+KQ/Dy5xyi87ugk/ISvGydHrR8CMPLTlWZRx48fj5octzJO+cqkxClr8i+0Y3G+biYAld7ElacEUrPEGSA/POaaEW/k/ReBep2j35AWg/fnsyINw6td94k6RtDhR9TLojpxBDPXV+PkT/2fqN1tx25jCOidWBil9q0t6OLFA8bVPHfCq5yMF0kUvB4xsxSpW5SMnsB1m8UgWVZ1CFa1fpyfoKo/Y+MoyAMBQkjkRMS94Tw2J3EBFBfnVQcYDrAVx8vdLT7weNEWWgnfZDjcDtGWow5Iai4EP"></script>
+
+    <script
+      src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=641224d3d867b0d5aade1f7c"
+      type="text/javascript"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="js/webflow.js" type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
+  </body>
+</html>
