@@ -29604,7 +29604,7 @@ blockquote {
   grid-column-gap: 15px;
   grid-row-gap: 15px;
   justify-content: start;
-  align-items: start;
+  align-items: center;
   display: flex;
 }
 
@@ -37789,7 +37789,7 @@ blockquote {
     flex-flow: column;
     order: 2;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -39987,7 +39987,7 @@ blockquote {
   }
 
   .div-block-879.absplute {
-    position: absolute;
+    /* position: absolute; */
     left: 5px;
   }
 
