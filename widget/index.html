@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
     <style>
       @font-face {
@@ -237,41 +236,6 @@
         }
       }
     </style>
-
-    <script>
-      // password reset
-      let supaClient;
-
-      document.addEventListener('DOMContentLoaded', event => {
-        const supabaseUrl = 'https://sygpwnluwwetrkmwilea.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5Z3B3bmx1d3dldHJrbXdpbGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUzMDIxNTQsImV4cCI6MjAyMDg3ODE1NH0.n2RSjgeqR-41wSO_IFuzPJKcc9bo1DbkXiPEsc1jO00';
-        supaClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-        const accountEmail = urlParams.get('email');
-        if (accountEmail) {
-          document.querySelector('#chatbot_name').value = accountEmail;
-        }
-      });
-
-      async function resetPasswordForEmail(email) {
-        const { data, error } = await supaClient.auth.resetPasswordForEmail(email, {
-          redirectTo: 'https://dashboard.sleak.chat/redirect/?url=password-update/'
-        });
-
-        console.log('Password reset email sent:', data);
-      }
-
-      document.querySelector('[chatbot-service="reset-email-form"]').addEventListener('submit', async e => {
-        e.preventDefault();
-        const email = document.querySelector('[chatbot-service="input-field-email"]').value;
-        resetPasswordForEmail(email);
-
-        document.querySelector('.success-message').style.display = 'flex';
-        document.querySelector('.input-container-2').style.display = 'none';
-        document.querySelector('.new-primary-btn-5').style.display = 'none';
-        document.querySelector('.form-btns-container-2').style.gridColumnGap = '0px';
-      });
-    </script>
 
     <script>
       // popup modals visibility behaviour
