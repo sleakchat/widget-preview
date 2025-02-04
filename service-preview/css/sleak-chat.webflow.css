@@ -29603,9 +29603,10 @@ blockquote {
 .div-block-878 {
   grid-column-gap: 15px;
   grid-row-gap: 15px;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
   display: flex;
+  
 }
 
 .div-block-879 {
