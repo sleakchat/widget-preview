@@ -1,23 +1,348 @@
-<script>
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const chatbotId = urlParams.get('id');
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Widget Preview</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+      }
 
-  const dev = urlParams.get('dev');
-  let sourceUrl;
-  if (dev === 'true') {
-    sourceUrl = 'https://development.sleakbot.pages.dev';
-  } else {
-    sourceUrl = 'https://cdn.sleak.chat';
-  }
+      .grid-container {
+        background-color: #fdfdfd;
+        background-image: radial-gradient(#f1f1f1 2px, transparent 2px);
+        background-size: 20px 20px;
+        border: 1px solid #ebebeb;
+        border-radius: 8px;
+        min-height: calc(100vh - 60px); /* Viewport height minus header height minus bottom padding */
+        box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.05);
+      }
 
-  if (chatbotId) {
-    const script = document.createElement('script');
-    script.id = 'sleakbot';
-    script.src = `${sourceUrl}/fetchsleakbot.js`;
-    script.setAttribute('chatbot-id', chatbotId);
-    document.head.appendChild(script);
-  } else {
-    console.log('no id present in url');
-  }
-</script>
+      .grid-container-wrapper {
+        padding: 0 6px 6px 6px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        padding: 10px 24px;
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-section a {
+        text-decoration: none;
+      }
+
+      .logo {
+        width: 110px;
+        margin-top: 2px;
+        margin-bottom: -2px;
+      }
+
+      .brand-name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .navigation {
+        display: flex;
+        gap: 8px;
+      }
+
+      .avatar-placeholder {
+        width: 18px;
+        height: 18px;
+        background-color: #cecece;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        line-height: 12px;
+        color: #8e8e8e;
+        font-weight: 700;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .nav-path {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 400;
+        color: #818181;
+        gap: 6px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-path.loaded {
+        opacity: 1;
+      }
+
+      .button-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .button {
+        padding: 7px 12px;
+        border-radius: 10px;
+        border: 1px solid #4a4a4a;
+        background-color: #f7f7f7;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+        transition: all 0.15s ease;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 1px 0 0 rgba(74, 74, 74, 0.8);
+        position: relative;
+        top: 0;
+      }
+
+      .button:hover {
+        background-color: #ebebeb;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 0 rgba(0, 0, 0, 0.15), 0 1px 0 0 rgba(74, 74, 74, 0.8);
+      }
+
+      .button:active {
+        top: 1px;
+        box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .button.primary {
+        background-color: #333;
+        color: white;
+        border: 1px solid #1a1a1a;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 0 rgba(0, 0, 0, 0.3), 0 1px 0 0 rgba(26, 26, 26, 0.8);
+      }
+
+      .button.primary:hover {
+        background-color: #404040;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 0 rgba(0, 0, 0, 0.4), 0 1px 0 0 rgba(26, 26, 26, 0.8);
+      }
+
+      .button.primary:active {
+        top: 1px;
+        box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.2), inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      .icon-button:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .icon-button img,
+      .icon-button svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-5px);
+        background-color: #333;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .icon-button:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      /* Remove underline from button links */
+      .button-group a {
+        text-decoration: none;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .toast.show {
+        opacity: 1;
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo-section">
+        <a href="https://sleak.chat" target="_blank">
+          <img src="images/sleaklogo.svg" class="logo" alt="Sleak Logo" />
+        </a>
+      </div>
+      <div class="nav-path">
+        <span class="avatar-placeholder" id="chatbotInitial">D</span>
+        <span id="chatbotName">Drafty</span>
+      </div>
+      <div class="button-group">
+        <button class="icon-button">
+          <img src="images/Rotate CCW Icon.svg" alt="Reset Chat" />
+          <span class="tooltip">Reset chat</span>
+        </button>
+        <button class="icon-button">
+          <img src="images/Stroke Rounded Icon (39).svg" alt="Agent Settings" />
+          <span class="tooltip">Delen</span>
+        </button>
+        <a href="https://dashboard.sleak.chat/agent-instellingen" target="_blank" class="icon-button">
+          <img src="images/Stroke Rounded Cursor Edit.svg" alt="Agent Settings" />
+          <span class="tooltip">Agent instellingen</span>
+        </a>
+        <a href="https://dashboard.sleak.chat/agent" target="_blank" class="button primary">Open in dashboard</a>
+      </div>
+    </header>
+
+    <div class="grid-container-wrapper">
+      <div class="grid-container">
+        <div class="container">
+          <!-- Widget preview content goes here -->
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast">Link gekopieerd</div>
+
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const chatbotId = urlParams.get('id');
+
+      // Add click handler for reset chat button
+      document.querySelector('button.icon-button').addEventListener('click', () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('resetChat', 'true');
+        window.location.href = url.toString();
+      });
+
+      // Add click handler for share button
+      document.querySelectorAll('button.icon-button')[1].addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          const toast = document.getElementById('toast');
+          toast.classList.add('show');
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy URL:', err);
+        }
+      });
+
+      const dev = urlParams.get('dev');
+      let sourceUrl;
+      if (dev === 'true') {
+        sourceUrl = 'https://development.sleakbot.pages.dev';
+      } else {
+        sourceUrl = 'https://cdn.sleak.chat';
+      }
+
+      // Load chatbot config after 3 seconds
+      setTimeout(async () => {
+        if (chatbotId) {
+          try {
+            const visitorId = localStorage.getItem(`sleakVisitorId_${chatbotId}`);
+            const timestamp = new Date().getTime();
+            const chatbotConfigEndpoint = `${sourceUrl}/api/config?id=${chatbotId}&visitor_id=${visitorId}&t=${timestamp}`;
+
+            const chatbotConfigRequest = await fetch(chatbotConfigEndpoint, {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+            const config = await chatbotConfigRequest.json();
+
+            // Update chatbot info
+            const navPath = document.querySelector('.nav-path');
+            const chatbotName = document.getElementById('chatbotName');
+            const chatbotInitial = document.getElementById('chatbotInitial');
+
+            if (config.name) {
+              chatbotName.textContent = config.name;
+              chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
+            }
+
+            if (config.profile_pic && config.profile_pic !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
+              chatbotInitial.style.backgroundImage = `url(${config.profile_pic})`;
+              chatbotInitial.textContent = '';
+            }
+
+            // Show the nav path
+            navPath.classList.add('loaded');
+          } catch (err) {
+            console.error('Failed to load chatbot config:', err);
+          }
+        }
+      }, 3000);
+
+      if (chatbotId) {
+        const script = document.createElement('script');
+        script.id = 'sleakbot';
+        script.src = `${sourceUrl}/fetchsleakbot.js`;
+        script.setAttribute('chatbot-id', chatbotId);
+        document.head.appendChild(script);
+      } else {
+        console.log('no id present in url');
+      }
+    </script>
+  </body>
+</html>
