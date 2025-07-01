@@ -311,7 +311,7 @@ body {
 .feature {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   color: #4b5563;
   font-size: 12px;
 }
@@ -541,6 +541,9 @@ input[type='radio']:checked + .plan-content .radio-indicator .checkmark {
   }
   .header {
     padding: 10px 12px;
+  }
+  .modal-wrapper {
+    width: calc(100vw - 32px);
   }
 }
 
