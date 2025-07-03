@@ -298,9 +298,7 @@
 
       // Add click handler for reset chat button
       document.querySelector('button.icon-button').addEventListener('click', () => {
-        const url = new URL(window.location.href);
-        url.searchParams.set('resetChat', 'true');
-        window.location.href = url.toString();
+        window.resetVisitorId();
       });
 
       // Add click handler for share button
