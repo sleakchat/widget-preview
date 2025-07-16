@@ -356,38 +356,46 @@
             const chatbotName = document.getElementById('chatbotName');
             const chatbotInitial = document.getElementById('chatbotInitial');
 
-            console.log('Elements found:', {
-              navPath: !!navPath,
-              chatbotName: !!chatbotName,
-              chatbotInitial: !!chatbotInitial
+            console.log('Before any updates:', {
+              navPath: navPath?.outerHTML,
+              chatbotName: chatbotName?.outerHTML,
+              chatbotInitial: chatbotInitial?.outerHTML
             });
 
             if (config.name) {
-              console.log('Setting name:', config.name);
+              console.log('Before name update:', chatbotName.textContent);
               chatbotName.textContent = config.name;
-              // Only set initial if we don't have a custom avatar
-              if (!config.avatar_url || config.avatar_url === 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
-                console.log('Setting initial:', config.name.charAt(0).toUpperCase());
-                chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
-              }
+              console.log('After name update:', chatbotName.textContent);
             }
 
             if (config.avatar_url && config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
-              console.log('Setting avatar background:', config.avatar_url);
+              console.log('Before avatar update:', {
+                backgroundImage: chatbotInitial.style.backgroundImage,
+                textContent: chatbotInitial.textContent,
+                outerHTML: chatbotInitial.outerHTML
+              });
+
               chatbotInitial.style.backgroundImage = `url(${config.avatar_url})`;
               chatbotInitial.textContent = '';
+
+              console.log('After avatar update:', {
+                backgroundImage: chatbotInitial.style.backgroundImage,
+                textContent: chatbotInitial.textContent,
+                outerHTML: chatbotInitial.outerHTML
+              });
+
+              // Force a DOM reflow
+              void chatbotInitial.offsetHeight;
             }
 
             // Show the nav path
-            console.log('Adding loaded class to nav path');
             navPath.classList.add('loaded');
 
-            // Debug final state
-            console.log('Final element states:', {
-              navPathClasses: navPath.className,
-              chatbotNameText: chatbotName.textContent,
-              chatbotInitialText: chatbotInitial.textContent,
-              chatbotInitialBackground: chatbotInitial.style.backgroundImage
+            // Final state check
+            console.log('Final state:', {
+              navPath: navPath.outerHTML,
+              chatbotName: chatbotName.outerHTML,
+              chatbotInitial: chatbotInitial.outerHTML
             });
           } catch (err) {
             console.error('Failed to load chatbot config:', err);
