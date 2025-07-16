@@ -356,18 +356,39 @@
             const chatbotName = document.getElementById('chatbotName');
             const chatbotInitial = document.getElementById('chatbotInitial');
 
+            console.log('Elements found:', {
+              navPath: !!navPath,
+              chatbotName: !!chatbotName,
+              chatbotInitial: !!chatbotInitial
+            });
+
             if (config.name) {
+              console.log('Setting name:', config.name);
               chatbotName.textContent = config.name;
-              chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
+              // Only set initial if we don't have a custom avatar
+              if (!config.avatar_url || config.avatar_url === 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
+                console.log('Setting initial:', config.name.charAt(0).toUpperCase());
+                chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
+              }
             }
 
             if (config.avatar_url && config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
+              console.log('Setting avatar background:', config.avatar_url);
               chatbotInitial.style.backgroundImage = `url(${config.avatar_url})`;
               chatbotInitial.textContent = '';
             }
 
             // Show the nav path
+            console.log('Adding loaded class to nav path');
             navPath.classList.add('loaded');
+
+            // Debug final state
+            console.log('Final element states:', {
+              navPathClasses: navPath.className,
+              chatbotNameText: chatbotName.textContent,
+              chatbotInitialText: chatbotInitial.textContent,
+              chatbotInitialBackground: chatbotInitial.style.backgroundImage
+            });
           } catch (err) {
             console.error('Failed to load chatbot config:', err);
           }
