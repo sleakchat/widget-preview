@@ -252,9 +252,6 @@
             const response = await chatbotConfigRequest.json();
             const config = response.data.chatbot_config;
 
-            // Store email for checkout
-            userEmail = config.email || '';
-
             // Update chatbot info
             const navPath = document.querySelector('.nav-path');
             const chatbotName = document.getElementById('chatbotName');
@@ -262,13 +259,17 @@
 
             if (config.name) {
               chatbotName.textContent = config.name;
-              chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
             }
 
-            if (config.avatar_url && config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
-              chatbotInitial.style.backgroundImage = `url(${config.avatar_url})`;
-              chatbotInitial.textContent = '';
+            if (
+              config.avatar_url &&
+              config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png' &&
+              config.avatar_url !== 'https://sygpwnluwwetrkmwilea.supabase.co/storage/v1/object/public/users/6c01d03c-b0bd-4521-bd3c-265ba38b482e/Rectangle%20(1).png'
+            ) {
+              // Try setting as an attribute instead
+              chatbotInitial.setAttribute('style', `background-image: url("${config.avatar_url}"); background-size: cover; background-position: center;`);
             }
+            chatbotInitial.textContent = '';
 
             // Show the nav path
             navPath.classList.add('loaded');

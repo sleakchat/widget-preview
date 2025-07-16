@@ -545,6 +545,20 @@ input[type='radio']:checked + .plan-content .radio-indicator .checkmark {
   .modal-wrapper {
     width: calc(100vw - 32px);
   }
+
+  .logo {
+    width: 90px; /* Slightly smaller on mobile */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  /* Hide dashboard and agent settings buttons */
+  .button.primary,
+  a[href*='agent-instellingen'].icon-button {
+    display: none;
+  }
+  .grid-container {
+    min-height: calc(100svh - 60px); /* Use small viewport height on mobile */
+  }
 }
 
 .plan-features {

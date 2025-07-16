@@ -55,6 +55,10 @@
         width: 110px;
         margin-top: 2px;
         margin-bottom: -2px;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        -webkit-font-smoothing: subpixel-antialiased;
       }
 
       .brand-name {
@@ -236,10 +240,18 @@
         .header {
           padding: 10px 12px;
         }
+        .logo {
+          width: 90px; /* Slightly smaller on mobile */
+          image-rendering: -webkit-optimize-contrast;
+          image-rendering: crisp-edges;
+        }
         /* Hide dashboard and agent settings buttons */
         .button.primary,
         a[href*='agent-instellingen'].icon-button {
           display: none;
+        }
+        .grid-container {
+          min-height: calc(100svh - 60px); /* Use small viewport height on mobile */
         }
       }
     </style>
@@ -349,40 +361,27 @@
             const response = await chatbotConfigRequest.json();
             const config = response.data.chatbot_config;
 
-            console.log(config);
-
             // Update chatbot info
             const navPath = document.querySelector('.nav-path');
             const chatbotName = document.getElementById('chatbotName');
             const chatbotInitial = document.getElementById('chatbotInitial');
 
-            console.log('Before any updates:', {
-              navPath: navPath?.outerHTML,
-              chatbotName: chatbotName?.outerHTML,
-              chatbotInitial: chatbotInitial?.outerHTML
-            });
-
             if (config.name) {
-              console.log('Before name update:', chatbotName.textContent);
               chatbotName.textContent = config.name;
-              console.log('After name update:', chatbotName.textContent);
             }
 
-            if (config.avatar_url && config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
+            if (
+              config.avatar_url &&
+              config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png' &&
+              config.avatar_url !== 'https://sygpwnluwwetrkmwilea.supabase.co/storage/v1/object/public/users/6c01d03c-b0bd-4521-bd3c-265ba38b482e/Rectangle%20(1).png'
+            ) {
               // Try setting as an attribute instead
               chatbotInitial.setAttribute('style', `background-image: url("${config.avatar_url}"); background-size: cover; background-position: center;`);
-              chatbotInitial.textContent = '';
             }
+            chatbotInitial.textContent = '';
 
             // Show the nav path
             navPath.classList.add('loaded');
-
-            // Final state check
-            console.log('Final state:', {
-              navPath: navPath.outerHTML,
-              chatbotName: chatbotName.outerHTML,
-              chatbotInitial: chatbotInitial.outerHTML
-            });
           } catch (err) {
             console.error('Failed to load chatbot config:', err);
           }
@@ -398,6 +397,14 @@
       } else {
         console.log('no id present in url');
       }
+
+      // Remove confetti script after 1 second
+      setTimeout(() => {
+        const confettiScript = document.querySelector('script[data-confetticode]');
+        if (confettiScript) {
+          confettiScript.remove();
+        }
+      }, 1000);
     </script>
   </body>
 </html>
