@@ -369,23 +369,9 @@
             }
 
             if (config.avatar_url && config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
-              console.log('Before avatar update:', {
-                backgroundImage: chatbotInitial.style.backgroundImage,
-                textContent: chatbotInitial.textContent,
-                outerHTML: chatbotInitial.outerHTML
-              });
-
-              chatbotInitial.style.backgroundImage = `url(${config.avatar_url})`;
+              // Try setting as an attribute instead
+              chatbotInitial.setAttribute('style', `background-image: url("${config.avatar_url}"); background-size: cover; background-position: center;`);
               chatbotInitial.textContent = '';
-
-              console.log('After avatar update:', {
-                backgroundImage: chatbotInitial.style.backgroundImage,
-                textContent: chatbotInitial.textContent,
-                outerHTML: chatbotInitial.outerHTML
-              });
-
-              // Force a DOM reflow
-              void chatbotInitial.offsetHeight;
             }
 
             // Show the nav path
