@@ -292,5 +292,14 @@
     <script
       src="https://run.confettipage.com/here.js"
       data-confetticode="U2FsdGVkX1/lwpcEZBXJkBpJwmNW/cbPUbI73Wj9lh6kLX+qRCa1tSLfeYjeCTkTRVwveaqoLAVnsK/FLbDfL2uevBVCxecYVOCzgTiO/BDJxj/jM7QT0IwvaMERo45MlUzUvLrVpUuYymNHfthTVLT0h0VpUm2lZwMK+XntJ5eu2tg3Kjv8sNxMxnyPiIvtjWFmkwhwYEjBuINfP6fpX+XSeb7zbcRjVIOpK/05wawVQixA5NowF6Ao0Y6hMDtu8ti48ojm7Blao1+SraH0MGSx4xtlJEQmdyERhiWKc/g3OEJ74IEGDx4JDii19a5TgCfktnda3i+V98cfXlc8AHodIbyFxxB6dYiFkelUNdvzWejZclZrpP4wakLBey74inkt/Dwqay1qNXIZMsylwZsL/ZtaGXxl+KQ/Dy5xyi87ugk/ISvGydHrR8CMPLTlWZRx48fj5octzJO+cqkxClr8i+0Y3G+biYAld7ElacEUrPEGSA/POaaEW/k/ReBep2j35AWg/fnsyINw6td94k6RtDhR9TLojpxBDPXV+PkT/2fqN1tx25jCOidWBil9q0t6OLFA8bVPHfCq5yMF0kUvB4xsxSpW5SMnsB1m8UgWVZ1CFa1fpyfoKo/Y+MoyAMBQkjkRMS94Tw2J3EBFBfnVQcYDrAVx8vdLT7weNEWWgnfZDjcDtGWow5Iai4EP"></script>
+    <script>
+      // Remove confetti script after 1 second
+      setTimeout(() => {
+        const confettiScript = document.querySelector('script[data-confetticode]');
+        if (confettiScript) {
+          confettiScript.remove();
+        }
+      }, 1000);
+    </script>
   </body>
 </html>
