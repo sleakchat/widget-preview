@@ -55,10 +55,6 @@
         width: 110px;
         margin-top: 2px;
         margin-bottom: -2px;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        -webkit-font-smoothing: subpixel-antialiased;
       }
 
       .brand-name {
@@ -241,9 +237,8 @@
           padding: 10px 12px;
         }
         .logo {
-          width: 90px; /* Slightly smaller on mobile */
-          image-rendering: -webkit-optimize-contrast;
-          image-rendering: crisp-edges;
+          width: 110px; /* Keep original size */
+          transform: translateZ(0); /* Simple GPU acceleration */
         }
         /* Hide dashboard and agent settings buttons */
         .button.primary,
@@ -397,14 +392,6 @@
       } else {
         console.log('no id present in url');
       }
-
-      // Remove confetti script after 1 second
-      setTimeout(() => {
-        const confettiScript = document.querySelector('script[data-confetticode]');
-        if (confettiScript) {
-          confettiScript.remove();
-        }
-      }, 1000);
     </script>
   </body>
 </html>
