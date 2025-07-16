@@ -349,6 +349,8 @@
             const response = await chatbotConfigRequest.json();
             const config = response.data.chatbot_config;
 
+            console.log(config);
+
             // Update chatbot info
             const navPath = document.querySelector('.nav-path');
             const chatbotName = document.getElementById('chatbotName');
@@ -360,20 +362,8 @@
             }
 
             if (config.avatar_url && config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png') {
-              // Create a temporary image to test loading
-              const tempImg = new Image();
-              tempImg.onload = () => {
-                chatbotInitial.style.backgroundImage = `url(${config.avatar_url})`;
-                chatbotInitial.textContent = '';
-              };
-              tempImg.onerror = err => {
-                console.error('Failed to load avatar image:', err);
-                // Fallback to initial if image fails to load
-                if (config.name) {
-                  chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
-                }
-              };
-              tempImg.src = config.avatar_url;
+              chatbotInitial.style.backgroundImage = `url(${config.avatar_url})`;
+              chatbotInitial.textContent = '';
             }
 
             // Show the nav path
