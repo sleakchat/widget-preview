@@ -269,8 +269,8 @@
             ) {
               // Try setting as an attribute instead
               chatbotInitial.setAttribute('style', `background-image: url("${config.avatar_url}"); background-size: cover; background-position: center;`);
+              chatbotInitial.textContent = '';
             }
-            chatbotInitial.textContent = '';
 
             // Show the nav path
             navPath.classList.add('loaded');
