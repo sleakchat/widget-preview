@@ -55,6 +55,9 @@
         width: 110px;
         margin-top: 2px;
         margin-bottom: -2px;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-font-smoothing: subpixel-antialiased;
       }
 
       .brand-name {
@@ -237,8 +240,10 @@
           padding: 10px 12px;
         }
         .logo {
-          width: 110px; /* Keep original size */
-          transform: translateZ(0); /* Simple GPU acceleration */
+          width: 110px;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-font-smoothing: subpixel-antialiased;
         }
         /* Hide dashboard and agent settings buttons */
         .button.primary,
@@ -363,6 +368,7 @@
 
             if (config.name) {
               chatbotName.textContent = config.name;
+              chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
             }
 
             if (
