@@ -349,9 +349,9 @@
       setTimeout(async () => {
         if (chatbotId) {
           try {
-            const visitorId = getCookie(`sleakVisitorId_${chatbotId}`);
+            const chatId = getCookie(`sleakVisitorId_${chatbotId}`);
             const timestamp = new Date().getTime();
-            const chatbotConfigEndpoint = `${widgetBaseUrl}/api/config?id=${chatbotId}&visitor_id=${visitorId}&t=${timestamp}`;
+            const chatbotConfigEndpoint = `${widgetBaseUrl}/api/config?id=${chatbotId}&chat_id=${chatId}&t=${timestamp}`;
 
             const chatbotConfigRequest = await fetch(chatbotConfigEndpoint, {
               method: 'get',
