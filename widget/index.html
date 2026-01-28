@@ -3,14 +3,280 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./favicon.ico"/>
     <title>Widget Preview</title>
-    <link rel="stylesheet" href="/widget/styles.css" />
+    <style>
+      body, html {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        overflow: hidden;
+      }
+
+      .grid-container {
+        background-color: #fdfdfd;
+        background-image: radial-gradient(#f1f1f1 2px, transparent 2px);
+        background-size: 20px 20px;
+        border: 1px solid #ebebeb;
+        border-radius: 8px;
+        min-height: calc(
+          100vh - 60px
+        ); /* Viewport height minus header height minus bottom padding */
+        box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .grid-container-wrapper {
+        padding: 0 6px 6px 6px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        padding: 10px 24px;
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-right: 8px;
+        border-radius: 8px;
+        transform: background-color 0.2s ease;
+      }
+
+      .logo-section:hover {
+        background-color: #f7f7f7;
+      }
+
+      .logo-section a {
+        text-decoration: none;
+      }
+
+      .logo {
+        width: 110px;
+        margin-top: 2px;
+        margin-bottom: -2px;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+
+      .brand-name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .navigation {
+        display: flex;
+        gap: 8px;
+      }
+
+      .avatar-placeholder {
+        width: 18px;
+        height: 18px;
+        background-color: #cecece;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        line-height: 12px;
+        color: #8e8e8e;
+        font-weight: 700;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .nav-path {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 400;
+        color: #818181;
+        gap: 6px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-path.loaded {
+        opacity: 1;
+      }
+
+      .button-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .button {
+        padding: 7px 12px;
+        border-radius: 10px;
+        border: 1px solid #4a4a4a;
+        background-color: #f7f7f7;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+        transition: all 0.15s ease;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.3),
+          inset 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 1px 0 0 rgba(74, 74, 74, 0.8);
+        position: relative;
+        top: 0;
+      }
+
+      .button:hover {
+        background-color: #ebebeb;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
+          inset 0 -1px 0 0 rgba(0, 0, 0, 0.15), 0 1px 0 0 rgba(74, 74, 74, 0.8);
+      }
+
+      .button:active {
+        top: 1px;
+        box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.1),
+          inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .button.primary {
+        background-color: #333;
+        color: white;
+        border: 1px solid #1a1a1a;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+          inset 0 -1px 0 0 rgba(0, 0, 0, 0.3), 0 1px 0 0 rgba(26, 26, 26, 0.8);
+      }
+
+      .button.primary:hover {
+        background-color: #404040;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+          inset 0 -1px 0 0 rgba(0, 0, 0, 0.4), 0 1px 0 0 rgba(26, 26, 26, 0.8);
+      }
+
+      .button.primary:active {
+        top: 1px;
+        box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.2),
+          inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      .icon-button:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .icon-button img,
+      .icon-button svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-5px);
+        background-color: #333;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .icon-button:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      /* Remove underline from button links */
+      .button-group a {
+        text-decoration: none;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .toast.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Hide nav-path on mobile */
+      @media screen and (max-width: 768px) {
+        .nav-path {
+          display: none;
+        }
+        .header {
+          padding: 10px 12px;
+        }
+        .logo {
+          width: 110px;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-font-smoothing: subpixel-antialiased;
+        }
+        /* Hide dashboard and agent settings buttons */
+        .button.primary,
+        a[href*="agent-instellingen"].icon-button {
+          display: none;
+        }
+        .grid-container {
+          min-height: calc(
+            100svh - 60px
+          ); /* Use small viewport height on mobile */
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="header">
       <div class="logo-section">
-        <a href="https://sleak.chat?utm_source=previewpage&utm_medium=header-logo" target="_blank">
-          <img src="/widget/images/sleaklogo.svg" class="logo" alt="Sleak Logo" />
+        <a
+          href="https://sleak.chat?utm_source=previewpage&utm_medium=header-logo"
+          target="_blank"
+        >
+          <img src="images/sleaklogo.svg" class="logo" alt="Sleak Logo" />
         </a>
       </div>
       <div class="nav-path">
@@ -19,15 +285,30 @@
       </div>
       <div class="button-group">
         <button class="icon-button">
-          <img src="/widget/images/Rotate CCW Icon.svg" alt="Reset Chat" />
+          <img src="images/Rotate CCW Icon.svg" alt="Reset Chat" />
           <span class="tooltip">Reset chat</span>
         </button>
         <button class="icon-button">
-          <img src="/widget/images/Stroke Rounded Icon (39).svg" alt="Agent Settings" />
+          <img src="images/Stroke Rounded Icon (39).svg" alt="Agent Settings" />
           <span class="tooltip">Delen</span>
         </button>
-
-        <a href="#" target="_blank" class="button primary">Open in dashboard</a>
+        <a
+          href="https://dashboard.sleak.chat/agent-instellingen"
+          target="_blank"
+          class="icon-button"
+        >
+          <img
+            src="images/Stroke Rounded Cursor Edit.svg"
+            alt="Agent Settings"
+          />
+          <span class="tooltip">Agent instellingen</span>
+        </a>
+        <a
+          href="https://dashboard.sleak.chat/agent"
+          target="_blank"
+          class="button primary"
+          >Open in dashboard</a
+        >
       </div>
     </header>
 
@@ -41,279 +322,86 @@
 
     <div id="toast" class="toast">Link gekopieerd</div>
 
-    <!-- Paywall Modal -->
-    <div id="paywallModal" class="modal">
-      <div class="modal-wrapper">
-        <div class="billing-toggle">
-          <label class="toggle-switch">
-            <input type="checkbox" id="billingToggle" />
-            <span class="toggle-slider"></span>
-          </label>
-          <span class="billing-option active">Maandelijks</span>
-          <span class="savings-badge">Bespaar 17%</span>
-        </div>
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2>Upgrade om verder te gaan</h2>
-          </div>
-          <div class="modal-body">
-            <p class="requirement-text">Om toegang te krijgen heb je minimaal een actief Start pakket nodig</p>
-            <div class="plan-features">
-              <div class="plan-feature">
-                <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="feature-check" />
-                Toegang tot agent in dashboard
-              </div>
-              <div class="plan-feature">
-                <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="feature-check" />
-                Geef nieuwe instructies in prompt editor
-              </div>
-              <div class="plan-feature">
-                <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="feature-check" />
-                Beheer databronnen & actions
-              </div>
-              <div class="plan-feature">
-                <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="feature-check" />
-                Toegang tot chat inbox
-              </div>
-              <div class="plan-feature">
-                <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="feature-check" />
-                Installeer widget op je website
-              </div>
-            </div>
-            <div class="plan-selector">
-              <label class="plan-option">
-                <input type="radio" name="plan" value="start" checked />
-                <div class="plan-content">
-                  <div class="plan-header">
-                    <div class="plan-info">
-                      <div class="plan-name">Start</div>
-                      <div class="plan-price">€69<span> / maand</span></div>
-                    </div>
-                    <div class="radio-indicator">
-                      <svg class="checkmark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </label>
-
-              <button class="button primary upgrade-button">Doorgaan</button>
-              <div class="features">
-                <div class="feature">
-                  <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="checkmark" />
-                  Elk moment opzegbaar
-                </div>
-                <div class="feature">
-                  <img src="/widget/images/Checkmark Circle Solid Rounded (3).svg" alt="Checkmark" class="checkmark" />
-                  Niet goed = geld terug
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script>
       // Get chatbot ID from URL parameters
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      const chatbotId = urlParams.get('id');
-
-      // Modal functionality
-      const modal = document.getElementById('paywallModal');
-      const closeButton = document.querySelector('.close-button');
-      const openDashboardButton = document.querySelector('.button.primary');
-
-      // Open modal when clicking "Open in dashboard"
-      openDashboardButton.addEventListener('click', e => {
-        e.preventDefault();
-        modal.style.display = 'flex';
-        // Small delay to ensure display:flex is applied before adding show class
-        requestAnimationFrame(() => {
-          modal.classList.add('show');
-        });
-      });
-
-      // Close modal when clicking outside
-      window.addEventListener('click', e => {
-        if (e.target === modal) {
-          modal.classList.remove('show');
-          setTimeout(() => {
-            modal.style.display = 'none';
-          }, 150); // Match the new opacity transition duration
-        }
-      });
-
-      // Billing toggle functionality
-      const billingToggle = document.getElementById('billingToggle');
-      const billingOption = document.querySelector('.billing-option');
-      const monthlyPrices = {
-        start: '69',
-        growth: '119',
-        scale: '229'
-      };
-      const yearlyPrices = {
-        start: '59',
-        growth: '99',
-        scale: '199'
-      };
-
-      const CHECKOUT_URLS = {
-        monthly: 'https://checkout.sleak.chat/b/dR69AY6BS0jO4vu7st',
-        yearly: 'https://checkout.sleak.chat/b/aEUdRebWc5E88LK8wB'
-      };
-
-      let userEmail = '';
-
-      billingToggle.addEventListener('change', e => {
-        const isYearly = e.target.checked;
-        billingOption.textContent = isYearly ? 'Jaarlijks' : 'Maandelijks';
-        const savingsBadge = document.querySelector('.savings-badge');
-        savingsBadge.style.display = isYearly ? 'block' : 'none';
-
-        // Update prices
-        document.querySelectorAll('.plan-option').forEach(plan => {
-          const priceElement = plan.querySelector('.plan-price');
-          const planValue = plan.querySelector('input[type="radio"]').value;
-          const prices = isYearly ? yearlyPrices : monthlyPrices;
-          priceElement.innerHTML = `€${prices[planValue]}<span> / maand</span>`;
-        });
-      });
+      const chatbotId = urlParams.get("id");
 
       // Function to get cookie value by name
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
+        if (parts.length === 2) return parts.pop().split(";").shift();
         return null;
       }
 
       // Add click handler for reset chat button
-      document.querySelector('button.icon-button').addEventListener('click', () => {
-        window.resetVisitorId();
-      });
+      document
+        .querySelector("button.icon-button")
+        .addEventListener("click", () => {
+          window.resetChatId();
+        });
 
       // Add click handler for share button
-      document.querySelectorAll('button.icon-button')[1].addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(window.location.href);
-          const toast = document.getElementById('toast');
-          toast.classList.add('show');
-          setTimeout(() => {
-            toast.classList.remove('show');
-          }, 2000);
-        } catch (err) {
-          console.error('Failed to copy URL:', err);
-        }
-      });
+      // document
+      //   .querySelectorAll("button.icon-button")[1]
+      //   .addEventListener("click", async () => {
+      //     try {
+      //       await navigator.clipboard.writeText(window.location.href);
+      //       const toast = document.getElementById("toast");
+      //       toast.classList.add("show");
+      //       setTimeout(() => {
+      //         toast.classList.remove("show");
+      //       }, 2000);
+      //     } catch (err) {
+      //       console.error("Failed to copy URL:", err);
+      //     }
+      //   });
 
       let sourceUrl;
       let widgetBaseUrl;
+      
+      let dev = false;
 
       // Environment detection
       const scriptSrc = window.location.href;
       if (scriptSrc.includes('dev')) {
-        sourceUrl = 'https://development.sleakbot.pages.dev';
+        sourceUrl = "https://sleakbot-v2.pages.dev";
         widgetBaseUrl = 'https://dev.widget.sleak.chat';
       } else if (scriptSrc.includes('localhost')) {
-        sourceUrl = 'http://localhost:8000';
-        widgetBaseUrl = 'https://dev.widget.sleak.chat';
+        sourceUrl = "http://localhost:8788";
+        widgetBaseUrl = 'https://dew.widget.sleak.chat';
       } else {
-        sourceUrl = 'https://cdn.sleak.chat';
+        sourceUrl = "https://cdn.sleak.chat";
         widgetBaseUrl = 'https://widget.sleak.chat';
       }
 
-      // Update the upgrade button click handler
-      document.querySelector('.upgrade-button').addEventListener('click', () => {
-        const isYearly = billingToggle.checked;
-        const baseUrl = isYearly ? CHECKOUT_URLS.yearly : CHECKOUT_URLS.monthly;
-        const encodedEmail = encodeURIComponent(userEmail);
-        const checkoutUrl = `${baseUrl}?prefilled_email=${encodedEmail}`;
-        window.open(checkoutUrl, '_blank');
-      });
-
-      // Load chatbot config after 1 second
-      setTimeout(async () => {
-        if (chatbotId) {
-          try {
-            const visitorId = getCookie(`sleakVisitorId_${chatbotId}`);
-            const timestamp = new Date().getTime();
-            const chatbotConfigEndpoint = `${widgetBaseUrl}/api/config?id=${chatbotId}&visitor_id=${visitorId}&t=${timestamp}`;
-
-            const chatbotConfigRequest = await fetch(chatbotConfigEndpoint, {
-              method: 'get',
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-
-            const response = await chatbotConfigRequest.json();
-            const config = response.data.chatbot_config;
-
-            // Update chatbot info
-            const navPath = document.querySelector('.nav-path');
-            const chatbotName = document.getElementById('chatbotName');
-            const chatbotInitial = document.getElementById('chatbotInitial');
-
-            if (config.name) {
-              chatbotName.textContent = config.name;
-              chatbotInitial.textContent = config.name.charAt(0).toUpperCase();
-            }
-
-            if (
-              config.avatar_url &&
-              config.avatar_url !== 'https://uploads-ssl.webflow.com/65911e9735540c235757642f/65b53f83acecf90e74bd8844_profile_pic_default.png' &&
-              config.avatar_url !== 'https://sygpwnluwwetrkmwilea.supabase.co/storage/v1/object/public/users/6c01d03c-b0bd-4521-bd3c-265ba38b482e/Rectangle%20(1).png'
-            ) {
-              // Try setting as an attribute instead
-              chatbotInitial.setAttribute('style', `background-image: url("${config.avatar_url}"); background-size: cover; background-position: center;`);
-              chatbotInitial.textContent = '';
-            }
-
-            // Show the nav path
-            navPath.classList.add('loaded');
-          } catch (err) {
-            console.error('Failed to load chatbot config:', err);
-          }
-        }
-      }, 1000);
-
       if (chatbotId) {
-        const script = document.createElement('script');
-        script.id = 'sleakbot';
+        const script = document.createElement("script");
+        script.id = "sleakbot";
         script.src = `${sourceUrl}/fetchsleakbot.js`;
-        script.setAttribute('chatbot-id', chatbotId);
+        script.setAttribute("chatbot-id", chatbotId);
+        if (dev) script.setAttribute("dev", dev);
         document.head.appendChild(script);
       } else {
-        console.log('no id present in url');
+        console.log("no id present in url");
       }
-    </script>
-    <script
-      src="https://run.confettipage.com/here.js"
-      data-confetticode="U2FsdGVkX1/lwpcEZBXJkBpJwmNW/cbPUbI73Wj9lh6kLX+qRCa1tSLfeYjeCTkTRVwveaqoLAVnsK/FLbDfL2uevBVCxecYVOCzgTiO/BDJxj/jM7QT0IwvaMERo45MlUzUvLrVpUuYymNHfthTVLT0h0VpUm2lZwMK+XntJ5eu2tg3Kjv8sNxMxnyPiIvtjWFmkwhwYEjBuINfP6fpX+XSeb7zbcRjVIOpK/05wawVQixA5NowF6Ao0Y6hMDtu8ti48ojm7Blao1+SraH0MGSx4xtlJEQmdyERhiWKc/g3OEJ74IEGDx4JDii19a5TgCfktnda3i+V98cfXlc8AHodIbyFxxB6dYiFkelUNdvzWejZclZrpP4wakLBey74inkt/Dwqay1qNXIZMsylwZsL/ZtaGXxl+KQ/Dy5xyi87ugk/ISvGydHrR8CMPLTlWZRx48fj5octzJO+cqkxClr8i+0Y3G+biYAld7ElacEUrPEGSA/POaaEW/k/ReBep2j35AWg/fnsyINw6td94k6RtDhR9TLojpxBDPXV+PkT/2fqN1tx25jCOidWBil9q0t6OLFA8bVPHfCq5yMF0kUvB4xsxSpW5SMnsB1m8UgWVZ1CFa1fpyfoKo/Y+MoyAMBQkjkRMS94Tw2J3EBFBfnVQcYDrAVx8vdLT7weNEWWgnfZDjcDtGWow5Iai4EP"></script>
-    <script>
-      // Remove confetti script and cleanup after 1 second
-      setTimeout(() => {
-        // Remove the script tag
-        const confettiScript = document.querySelector('script[data-confetticode]');
-        if (confettiScript) {
-          confettiScript.remove();
-        }
 
-        // Clean up any running confetti
-        if (window.CONFETTI) {
-          window.CONFETTI.stop();
-          delete window.CONFETTI;
-        }
+      // window.addEventListener(
+      //   "sleakCustomFieldsHandlerInitialized",
+      //   function (event) {
+      //     console.log(event);
+      //     exampleData = {
+      //       email: "tom@sleak.chat",
+      //       ordernummer: "R250117953",
+      //     };
 
-        // Clear any remaining confetti elements
-        const confettiCanvas = document.querySelector('canvas[data-confetti]');
-        if (confettiCanvas) {
-          confettiCanvas.remove();
-        }
-      }, 1000);
+      //     setTimeout(() => {
+      //       window.sleakPushCustomFields(exampleData);
+      //     }, 3000);
+      //   }
+      // );
     </script>
   </body>
 </html>
