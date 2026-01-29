@@ -329,17 +329,18 @@
 
       let sourceUrl;
       let widgetBaseUrl;
-      
-      let dev = false;
+      let dev;
 
       // Environment detection
       const scriptSrc = window.location.href;
-      if (scriptSrc.includes('dev')) {
+      if (scriptSrc.includes('localhost')) {
+        sourceUrl = "http://localhost:8788";
+        widgetBaseUrl = 'https://dev.widget.sleak.chat';
+        dev = true;
+      }else if (scriptSrc.includes('dev')) {
         sourceUrl = "https://sleakbot-v2.pages.dev";
         widgetBaseUrl = 'https://dev.widget.sleak.chat';
-      } else if (scriptSrc.includes('localhost')) {
-        sourceUrl = "http://localhost:8788";
-        widgetBaseUrl = 'https://dew.widget.sleak.chat';
+        dev = true;
       } else {
         sourceUrl = "https://cdn.sleak.chat";
         widgetBaseUrl = 'https://widget.sleak.chat';
@@ -396,6 +397,7 @@
         script.id = 'sleakbot';
         script.src = `${sourceUrl}/fetchsleakbot.js`;
         script.setAttribute('chatbot-id', chatbotId);
+        if (dev) script.setAttribute("dev", dev);
         document.head.appendChild(script);
       } else {
         console.log('no id present in url');
