@@ -10,6 +10,7 @@
         margin: 0;
         padding: 0;
         background-color: white;
+        overflow: hidden;
       }
 
       .grid-container {
@@ -310,7 +311,7 @@
 
       // Add click handler for reset chat button
       document.querySelector('button.icon-button').addEventListener('click', () => {
-        window.resetVisitorId();
+        window.resetChatId();
       });
 
       // Add click handler for share button
